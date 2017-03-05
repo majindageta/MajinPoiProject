@@ -1,7 +1,7 @@
 package com.majin.mappoi.Activity;
 
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -9,7 +9,13 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.majin.mappoi.Events.LoginEvent;
+import com.majin.mappoi.Model.Services.Services;
 import com.majin.mappoi.R;
+import com.majin.mappoi.Utilities.CustomEventBus;
+import com.majin.mappoi.Utilities.SharedPreferencesManager;
+
+import org.json.JSONException;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -23,8 +29,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        SharedPreferencesManager.getManager(this);
+        CustomEventBus.getInstance().register(this);
     }
-
 
     /**
      * Manipulates the map once available.
@@ -43,5 +50,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng sydney = new LatLng(45.464211, 9.191383);
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
+        try {
+            Services.getInstance(this).getCurrentImplementation().doLogin("majin", "1234");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
+
+    public void onEvent(LoginEvent event) {
+        //test
+    }
+
 }

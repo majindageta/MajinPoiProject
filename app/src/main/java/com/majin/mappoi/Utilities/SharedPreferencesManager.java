@@ -11,9 +11,9 @@ public class SharedPreferencesManager {
 
     private static String PREFERENZE_NOME = "MapPoiPreferences";
 
-    private static SharedPreferencesManager manager_;
+    public static String ACCESS_TOKEN = "AccessToken";
 
-    public static String PREFERENZE_PULL_SERVICE = "PullServiceBootReceiver_AVVIATO";
+    private static SharedPreferencesManager manager_;
 
     private Context context_;
 
@@ -55,6 +55,26 @@ public class SharedPreferencesManager {
     {
         SharedPreferences valPref = context_.getSharedPreferences(PREFERENZE_NOME, 0);
         return valPref.contains(key);
+    }
+
+    public boolean putSharedPref(String key, String value) {
+        try {
+            SharedPreferences valPref = context_.getSharedPreferences(PREFERENZE_NOME, 0);
+            SharedPreferences.Editor editor = valPref.edit();
+            editor.putString(key, value);
+            editor.commit();
+            return  true;
+        } catch (Exception e) {
+            return false;
+        }
+
+    }
+
+    public String getSharedPref(String key) {
+        SharedPreferences valPref = context_.getSharedPreferences(PREFERENZE_NOME, 0);
+        if (contains(key))
+            return valPref.getString(key, "");
+        return "";
     }
 
 }

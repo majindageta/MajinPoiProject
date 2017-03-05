@@ -13,9 +13,9 @@ public class Services {
 
     private Services(Context context) {
 //        if(Config.getInstance(context).isMock()){
-            currentImplementation_ = new MockService( context );
+//            currentImplementation_ = new MockService( context );
 //        } else {
-//            currentImplementation_ = new RESTServices( context );
+            currentImplementation_ = new RESTService( context );
 //        }
     }
 
